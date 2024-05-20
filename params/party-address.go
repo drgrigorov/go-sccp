@@ -243,5 +243,8 @@ func (p *PartyAddress) IsOddDigits() bool {
 
 // GTString returns the GlobalTitleInfo in human readable string.
 func (p *PartyAddress) GTString() string {
-	return utils.SwappedBytesToStr(p.GlobalTitleInfo, p.IsOddDigits())
+	if len( p.GlobalTitleInfo > 0 ) {
+		return utils.SwappedBytesToStr(p.GlobalTitleInfo, p.IsOddDigits())
+	}
+	return ""
 }
