@@ -1,4 +1,4 @@
-// Copyright 2019-2023 go-sccp authors. All rights reserved.
+// Copyright 2019-2024 go-sccp authors. All rights reserved.
 // Use of this source code is governed by a MIT-style license that can be
 // found in the LICENSE file.
 
@@ -37,6 +37,24 @@ var testcases = []struct {
 		),
 		serialized: []byte{
 			0x0a, 0x12, 0x06, 0x00, 0x11, 0x04, 0x21, 0x43, 0x65, 0x87, 0x09,
+		},
+		decodeFunc: func(b []byte) (serializable, error) {
+			v, err := params.ParsePartyAddress(b)
+			if err != nil {
+				return nil, err
+			}
+
+			return v, nil
+		},
+	}, {
+		description: "PartyAddress/2-bytes",
+		structured: params.NewPartyAddress(
+			0x42, 0, 6, 0x00, // Indicator, SPC, SSN, TT
+			0x00, 0x00, 0x00, // NP, ES, NAI
+			nil, // GlobalTitleInformation
+		),
+		serialized: []byte{
+			0x02, 0x42, 0x06,
 		},
 		decodeFunc: func(b []byte) (serializable, error) {
 			v, err := params.ParsePartyAddress(b)
